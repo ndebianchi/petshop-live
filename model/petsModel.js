@@ -45,18 +45,44 @@ let pets = [{
     }
 ];
 
+const textoHome = () => {
+    let texto = `
+    ***** PETSHOP DH *****<br>
+    <br>
+    <b>Lista de páginas:</b> <br>
+    <a href="http://localhost:3000/lista"> /lista</a> : Mostra todos os Pets cadastrados <br>
+    <a href="http://localhost:3000/add"> /add</a> : Adiciona novos pets à lista <br>
+    <a href="http://localhost:3000/remove"> /remove</a> : Remove pets da lista <br>
+    <a href="http://localhost:3000/search"> /search</a> : Busca pets por nome <br>
+    <br>        
+    <b>Como inserir um Pet válido na Url.</b><br>
+    <br>
+    <b>Formatação:</b>  /add/NOME/TIPO/IDADE/RACA/GENERO/ <br>
+    <br>
+    <b>Campos Obrigatórios:</b><br>
+    Nome: Primeiro nome do Pet. <br>
+    Tipo: Gato, Cachorro, Pássaro, etc. <br>
+    Idade: Quantos anos ele tem. <br>
+    <br>
+    <b>Campos Adicionais:</b><br>
+    Raça: Raça do Pet <br>
+    Gênero: M ou F`
+
+    return texto
+}
+
 const listarPets = () => {
     let lista = ""
     for (let pet of pets) {
         lista += `
-        ---------------------
-        Nome: ${pet.nome}
-        Tipo: ${pet.tipo}
-        Raça: ${pet.raca}
-        Idade: ${pet.idade}
-        Genero: ${(pet.genero == "F" ? "Femea" : "Macho")}
-        Vacinado: ${(pet.vacinado ? "Sim" : "Não")}
-        Serviços: ${pet.servicos}`
+        --------------------- <br>
+        Nome: ${pet.nome} <br>
+        Tipo: ${pet.tipo} <br>
+        Raça: ${pet.raca} <br>
+        Idade: ${pet.idade} <br>
+        Genero: ${(pet.genero == "F" ? "Femea" : "Macho")} <br>
+        Vacinado: ${(pet.vacinado ? "Sim" : "Não")} <br>
+        Serviços: ${pet.servicos} <br>`
     }
     return lista;
 };
@@ -91,5 +117,6 @@ const checarPet = pet => {
 
 module.exports = {
     listarPets,
-    adicionarPet
+    adicionarPet,
+    textoHome
 };
