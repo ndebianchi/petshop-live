@@ -73,7 +73,7 @@ const listarPets = lista => {
         Tipo: ${pet.tipo} <br>
         Raça: ${pet.raca} <br>
         Idade: ${pet.idade} <br>
-        Genero: ${(pet.genero == "F" ? "Femea" : "Macho")} <br>
+        Genero: ${pet.genero} <br>
         Vacinado: ${(pet.vacinado ? "Sim" : "Não")} <br>
         Serviços: ${pet.servicos} <br>`
     }
@@ -92,7 +92,7 @@ const adicionarPet = novoPet => {
             novoPet.raca = "RND"
         }
         if (!novoPet.genero) {
-            novoPet.genero = "Gênero não definido"
+            novoPet.genero = "Não definido"
         }
         novoPet.ID = petsLista.length;
 
