@@ -1,11 +1,12 @@
-let pets = [{
+let petsLista = [{
         nome: "Batman",
         tipo: "cão",
         raca: "vira-lata",
         idade: 2,
         genero: "M",
         vacinado: true,
-        servicos: ["banho", "tosa", "corte de unha"]
+        servicos: ["banho", "tosa", "corte de unha"],
+        ID: 0
     },
     {
         nome: "Lua",
@@ -14,7 +15,8 @@ let pets = [{
         idade: 8,
         genero: "F",
         vacinado: false,
-        servicos: ["banho", "corte de unha"]
+        servicos: ["banho", "corte de unha"],
+        ID: 1
     },
     {
         nome: "Joaquim",
@@ -23,7 +25,8 @@ let pets = [{
         idade: 2,
         genero: "M",
         vacinado: true,
-        servicos: ["banho", "corte de unha"]
+        servicos: ["banho", "corte de unha"],
+        ID: 2
     },
     {
         nome: "Gata",
@@ -32,7 +35,8 @@ let pets = [{
         idade: 3,
         genero: "F",
         vacinado: true,
-        servicos: ["banho", "corte de unha"]
+        servicos: ["banho", "corte de unha"],
+        ID: 3
     },
     {
         nome: "Bartolomeu",
@@ -41,7 +45,8 @@ let pets = [{
         idade: 6,
         genero: "M",
         vacinado: false,
-        servicos: ["banho"]
+        servicos: ["banho"],
+        ID: 4
     }
 ];
 
@@ -53,30 +58,18 @@ const textoHome = () => {
     <a href="http://localhost:3000/lista"> /lista</a> : Mostra todos os Pets cadastrados <br>
     <a href="http://localhost:3000/add"> /add</a> : Adiciona novos pets à lista <br>
     <a href="http://localhost:3000/remove"> /remove</a> : Remove pets da lista <br>
-    <a href="http://localhost:3000/search"> /search</a> : Busca pets por nome <br>
-    <br>        
-    <b>Como inserir um Pet válido na Url.</b><br>
-    <br>
-    <b>Formatação:</b>  /add/NOME/TIPO/IDADE/RACA/GENERO/ <br>
-    <br>
-    <b>Campos Obrigatórios:</b><br>
-    Nome: Primeiro nome do Pet. <br>
-    Tipo: Gato, Cachorro, Pássaro, etc. <br>
-    Idade: Quantos anos ele tem. <br>
-    <br>
-    <b>Campos Adicionais:</b><br>
-    Raça: Raça do Pet <br>
-    Gênero: M ou F`
+    <a href="http://localhost:3000/search"> /search</a> : Busca pets por nome <br>`
 
     return texto
 }
 
-const listarPets = () => {
-    let lista = ""
-    for (let pet of pets) {
-        lista += `
+const listarPets = lista => {
+    let conteudo = ""
+    for (let pet of lista) {
+        conteudo += `
         --------------------- <br>
         Nome: ${pet.nome} <br>
+        ID: ${pet.ID}<br>
         Tipo: ${pet.tipo} <br>
         Raça: ${pet.raca} <br>
         Idade: ${pet.idade} <br>
@@ -84,7 +77,7 @@ const listarPets = () => {
         Vacinado: ${(pet.vacinado ? "Sim" : "Não")} <br>
         Serviços: ${pet.servicos} <br>`
     }
-    return lista;
+    return conteudo;
 };
 
 const adicionarPet = novoPet => {
@@ -99,13 +92,13 @@ const adicionarPet = novoPet => {
             novoPet.raca = "RND"
         }
         if (!novoPet.genero) {
-            novoPet.idade = "Gênero não definido"
+            novoPet.genero = "Gênero não definido"
         }
+        novoPet.ID = petsLista.length;
 
-        return pets.push(novoPet)
+        return petsLista.push(novoPet)
     }
 };
-
 
 const checarPet = pet => {
     return (
@@ -115,8 +108,30 @@ const checarPet = pet => {
     )
 };
 
+const buscarPet = nome => {
+    let petsBuscados = petsLista.filter(pet => pet.nome == nome)
+    return petsBuscados;
+
+};
+
+const deletarPet = indice => {
+    petsLista.splice(indice, 1);
+    arrumarID();
+    return petsLista;
+};
+
+const arrumarID = () => {
+    for (let pet of petsLista) {
+        pet.ID = petsLista.indexOf(pet);
+    }
+}
+
+
 module.exports = {
+    petsLista,
     listarPets,
     adicionarPet,
-    textoHome
+    textoHome,
+    buscarPet,
+    deletarPet,
 };

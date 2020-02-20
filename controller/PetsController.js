@@ -6,7 +6,7 @@ const PetsController = {
     },
 
     index: (req, res) => {
-        let conteudo = petsModel.listarPets();
+        let conteudo = petsModel.listarPets(petsModel.petsLista);
         if (conteudo.length > 0) {
             res.send(`
             <a href="http://localhost:3000/"> Voltar para Home </a> <br>
@@ -23,16 +23,72 @@ const PetsController = {
                 <a href="http://localhost:3000/"> Voltar para Home </a> <br>
                 ${novoPet.nome} foi adicionado(a) com sucesso`)
         } else {
-            res.send(`Insira um pet válido. Veja como <a href="http://localhost:3000/"> aqui</a>`)
+            res.send(`
+            <a href="http://localhost:3000/"> Voltar para Home </a><br>
+            <br>
+            ***** Insira um pet válido. ***** <br>
+            <br>
+            <b>Como inserir um Pet válido na Url.</b><br>
+            <br>
+            <b>Formatação:</b>  /add/NOME/TIPO/IDADE/RACA/GENERO/ <br>
+            <br>
+            <b>Campos Obrigatórios:</b><br>
+            Nome: Primeiro nome do Pet. <br>
+            Tipo: Gato, Cachorro, Pássaro, etc. <br>
+            Idade: Quantos anos ele tem. <br>
+            <br>
+            <b>Campos Adicionais:</b><br>
+            Raça: Raça do Pet <br>
+            Gênero: M ou F`)
         };
     },
 
     remove: (req, res) => {
-        res.send("deletar pet")
+        let {id} = req.params;
+        if (id) {
+            if (id <= petsModel.petsLista.length) {
+                petsModel.deletarPet(id);
+                res.send(`
+        <a href="http://localhost:3000/"> Voltar para Home </a> <br>
+        <br>
+        Pet ID ${id} removido com sucesso`);
+            } else {
+                res.send(`
+                Não existe nenhum pet de ID ${id} <br>
+                Consulte os IDs <a href="http://localhost:3000/lista"> aqui </a>`);
+            }
+
+        } else {
+            res.send(`
+        <a href="http://localhost:3000/"> Voltar para Home </a> <br>
+        <br>
+        Insira um número em ID: /remove/ID`);
+        }
+
+
     },
 
     search: (req, res) => {
-        res.send("buscar pet")
+        let {
+            nome
+        } = req.params;
+        let resultado = petsModel.buscarPet(nome);
+        if (nome) {
+            if (Object.entries(resultado).length > 0) {
+                res.send(`
+        <a href="http://localhost:3000/"> Voltar para Home </a> <br>
+        <br>
+        Existe(m) ${resultado.length} resultado(s) para ${nome} <br>
+        <br>
+        ${petsModel.listarPets(resultado)}`);
+            } else {
+                res.send(`Não há registros de "${nome}" no sistema`)
+            }
+        } else {
+            res.send(`
+            <a href="http://localhost:3000/"> Voltar para Home </a> <br>
+            Insira um nome válido: /search/NOME`);
+        }
     }
 }
 
